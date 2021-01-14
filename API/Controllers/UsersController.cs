@@ -3,14 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc; // Modern view Controller - use .net to serve HTML pages
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] //specify API/users to get this controller
-    public class UsersController : ControllerBase // Derive from controllerbase
+    public class UsersController : BaseApiController // Derive from controllerbase
     {
         private readonly DataContext _context; // private readonly varible
         public UsersController(DataContext context) // Generated constructor - Dependancy Injection
@@ -20,7 +19,7 @@ namespace API.Controllers
   
       // End point to get all the users in the DB
       [HttpGet] 
-
+       [AllowAnonymous] 
       // Ienumberable allows us to use simple interation over a collection of specified type
       // More appropriate as we do not need to sort or research
       // We need to import the AppUser 
@@ -32,6 +31,7 @@ namespace API.Controllers
       
       }
 // for example if ID = 3 give me all user info for - api/users/3 - Specificed route parameter where 3 is the ID to be fetched
+      [Authorize]  
       [HttpGet("{id}")] 
 
       // Ienumberable is a built in function
